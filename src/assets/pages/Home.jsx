@@ -29,7 +29,7 @@ const Home = () => {
 
   // Renderização Condicional (Estados da Interface)
 
-  // A. Estado de Carregamente [cite: 52]
+  // A. Estado de Carregamente
   if (loading) {
     return (
       <div className="text-center mt-5">
@@ -40,7 +40,7 @@ const Home = () => {
     );
   }
 
-  // B. Estado de Erro [cite: 53]
+  // B. Estado de Erro
   if (error) {
     return (
       <div className="alert alert-danger text-center" role="alert">
@@ -49,7 +49,7 @@ const Home = () => {
     );
   }
 
-  // C. Estado de Sucesso (Listagem) [cite: 56]
+  // C. Estado de Sucesso (Listagem)
   return (
     <section>
       <h1 className="mb-4 text-center">
@@ -63,7 +63,7 @@ const Home = () => {
         ))}
       </div>
 
-      {/* Se a lista estiver vazia (ausência de dados) [cite: 54] */}
+      {/* Se a lista estiver vazia (ausência de dados) */}
       {characters.length === 0 && (
         <p className="text-center">Nenhum personagem encontrado.</p>
       )}
