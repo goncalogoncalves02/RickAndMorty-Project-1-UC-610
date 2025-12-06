@@ -51,7 +51,7 @@ const Home = () => {
         </p>
       </div>
 
-      {/* Colocar a Barra de Pesquisa aqui */}
+      {/* Barra de Pesquisa */}
       <div className="row justify-content-center">
         <div className="col-12 col-md-8">
           <SearchBar onSearch={handleSearch} />
