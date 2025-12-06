@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getAllCharacters } from "../services/api"; // Importa a função de buscar todos os personagens
 import CharacterCard from "../components/CharacterCard"; // Importa o componente de cartão de personagem
+import SearchBar from "../components/SearchBar"; // Importa o componente de barra de pesquisa
 
 const Home = () => {
   // Estado para gerir os dados e a interface
@@ -8,64 +9,78 @@ const Home = () => {
   const [characters, setCharacters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true); // Começa a carregar
-        const data = await getAllCharacters(); // Chama a API
+        setError(null); // Limpa o erro
+        const data = await getAllCharacters(1, searchTerm); // Chama a API
 
         // A API do Rick and Morty devolve os personagens dentro de "results"
         setCharacters(data.results);
       } catch (err) {
-        console.error(err);
-        setError("Falha ao carregar os dados. Tenta novamente mais tarde.");
+        setCharacters([]);
+        if (searchTerm) {
+          setError(`Não encontrámos ninguém com o nome "${searchTerm}".`);
+        } else {
+          console.error(err);
+          setError("Falha ao carregar os dados. Tenta novamente mais tarde.");
+        }
       } finally {
         setLoading(false); // Termina de carregar
       }
     };
     fetchData();
-  }, []); // O array vazio [] garante que isto só corre uma vez ao montar o componente
+  }, [searchTerm]); // <--- O useEffect corre sempre que 'searchTerm' muda
 
   // Renderização Condicional (Estados da Interface)
 
-  // A. Estado de Carregamente
-  if (loading) {
-    return (
-      <div className="text-center mt-5">
-        <div className="spinner-border text-primary" role="status">
-          <span className="visually-hidden">A carregar...</span>
-        </div>
-      </div>
-    );
-  }
+  // Função que será chamada pelo componente SearchBar
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+  };
 
-  // B. Estado de Erro
-  if (error) {
-    return (
-      <div className="alert alert-danger text-center" role="alert">
-        {error}
-      </div>
-    );
-  }
-
-  // C. Estado de Sucesso (Listagem)
   return (
     <section>
-      <h1 className="mb-4 text-center">
-        Personagens do Universo de Rick and Morty
-      </h1>
-
-      <div className="row">
-        {characters.map((character) => (
-          // Usamos o componente filho para cada item da lista
-          <CharacterCard key={character.id} character={character} />
-        ))}
+      <div className="text-center mb-4">
+        <h1 className="mb-3">Personagens do Universo</h1>
+        <p className="lead text-muted">
+          Explora a base de dados do Rick and Morty
+        </p>
       </div>
 
-      {/* Se a lista estiver vazia (ausência de dados) */}
-      {characters.length === 0 && (
-        <p className="text-center">Nenhum personagem encontrado.</p>
+      {/* Colocar a Barra de Pesquisa aqui */}
+      <div className="row justify-content-center">
+        <div className="col-12 col-md-8">
+          <SearchBar onSearch={handleSearch} />
+        </div>
+      </div>
+
+      {/* Loading */}
+      {loading && (
+        <div className="text-center mt-5">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">A carregar...</span>
+          </div>
+        </div>
+      )}
+
+      {/* Erro */}
+      {error && !loading && (
+        <div className="alert alert-warning text-center" role="alert">
+          {error}
+        </div>
+      )}
+
+      {/* Listagem */}
+      {!loading && !error && (
+        <div className="row">
+          {characters.map((character) => (
+            <CharacterCard key={character.id} character={character} />
+          ))}
+        </div>
       )}
     </section>
   );

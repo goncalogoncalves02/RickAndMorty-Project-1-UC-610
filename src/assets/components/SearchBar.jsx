@@ -18,7 +18,7 @@ const SearchBar = ({ onSearch }) => {
                 onChange={(e) => setInput(e.target.value)}
             />
 
-            <button className="btn btn-outline-sucess" type="submit">
+            <button className="btn btn-outline-success" type="submit">
                 Pesquisar
             </button>
 
