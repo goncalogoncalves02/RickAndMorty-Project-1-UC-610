@@ -1,0 +1,80 @@
+
+body {
+  background-image: url('assets/images/background.jpg');
+
+  background-size: cover;
+
+  background-position: center center;
+
+  background-repeat: no-repeat;
+
+  background-attachment: fixed;
+
+  background-color: transparent !important;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+}
+
+.navbar, footer {
+	background: linear-gradient(-45deg, #58b500, #004600, #58b500, #004600);
+	background-size: 400% 400%;
+	animation: gradient 10s ease infinite;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+
+/* Botões Personalizados - Verde Rick and Morty */
+.botao-verde {
+  color: #58b500 !important;
+  border-color: #58b500 !important;
+}
+
+.botao-verde:hover {
+  background-color: #58b500 !important;
+  color: #fff !important;
+  box-shadow: 0 0 10px #58b500;
+}
+
+.btn-outline-success {
+	color: #58b500 !important;
+	border-color: #58b500 !important;
+}
+
+.btn-outline-success:hover {
+	background-color: #58b500 !important;
+	color: #fff !important;
+	box-shadow: 0 0 10px #58b500;
+}
+
+
+.btn-anterior, .btn-seguinte {
+	color: #fff !important;
+	border-color: #58b500 !important;
+}
+
+.btn-anterior:hover, .btn-seguinte:hover {
+	background-color: #58b500 !important;
+	color: #fff !important;
+	box-shadow: 0 0 10px #58b500;
+}
+

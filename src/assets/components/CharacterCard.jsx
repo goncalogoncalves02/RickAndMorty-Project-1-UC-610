@@ -34,7 +34,7 @@ function CharacterCard({ character }) {
           {/* Botão para ver detalhes */}
           <Link
             to={`/character/${character.id}`}
-            className="btn btn-outline-primary w-100 mt-2"
+            className="btn btn-outline-primary w-100 mt-2 botao-verde"
           >
             Ver detalhes
           </Link>

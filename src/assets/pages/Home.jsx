@@ -132,7 +132,7 @@ const Home = () => {
           {totalPages > 1 && (
             <div className="d-flex justify-content-center align-items-center gap-3 mt-5 mb-5">
               <button 
-                className="btn btn-outline-primary" 
+                className="btn btn-outline-primary btn-anterior" 
                 onClick={handlePrevPage}
                 disabled={page === 1}
               >
@@ -144,7 +144,7 @@ const Home = () => {
               </span>
 
               <button 
-                className="btn btn-outline-primary" 
+                className="btn btn-outline-primary btn-seguinte" 
                 onClick={handleNextPage}
                 disabled={page === totalPages}
               >
