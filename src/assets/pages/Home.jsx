@@ -9,7 +9,10 @@ const Home = () => {
   const [characters, setCharacters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // Estados
   const [searchTerm, setSearchTerm] = useState("");
+  const [status, setStatus] = useState(""); // Filtro de Status
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
 
@@ -19,16 +22,19 @@ const Home = () => {
       try {
         setLoading(true); // Começa a carregar
         setError(null); // Limpa o erro
-        const data = await getAllCharacters(page, searchTerm); // Chama a API
+
+        // Agora enviamos página, nome E status para a API
+        const data = await getAllCharacters(page, searchTerm, status); // Chama a API
 
         // A API do Rick and Morty devolve os personagens dentro de "results"
         setCharacters(data.results);
         setTotalPages(data.info.pages); // Guardamos o total de páginas que a API indica
+
       } catch (err) {
         setCharacters([]);
         setTotalPages(0);
-        if (searchTerm) {
-          setError(`Não encontrámos ninguém com o nome "${searchTerm}".`);
+        if (searchTerm || status) {
+          setError(`Não encontrámos ninguém com o nome "${searchTerm} ou status "${status}".`);
         } else {
           console.error(err);
           setError("Falha ao carregar os dados. Tenta novamente mais tarde.");
@@ -38,7 +44,7 @@ const Home = () => {
       }
     };
     fetchData();
-  }, [searchTerm, page]); // O useEffect corre quando muda o 'searchTerm' OU a 'page'
+  }, [searchTerm, page, status]); // O useEffect corre sempre que muda: termo, página OU status
 
   // Renderização Condicional (Estados da Interface)
 
@@ -46,6 +52,11 @@ const Home = () => {
   const handleSearch = (term) => {
     setSearchTerm(term);
     setPage(1); // Resetamos a página para 1 quando muda o termo de pesquisa
+  };
+
+  const handleStatusChange = (e) => {
+    setStatus(e.target.value);
+    setPage(1); // Reset à paginação quando mudamos o filtro
   };
 
   // Função para mudar de página
@@ -66,14 +77,33 @@ const Home = () => {
         </p>
       </div>
 
-      {/* Barra de Pesquisa */}
-      <div className="row justify-content-center">
-        <div className="col-12 col-md-8">
-          <SearchBar onSearch={handleSearch} />
+      {/* ÁREA DE PESQUISA E FILTROS */}
+      <div className="row justify-content-center mb-4">
+        <div className="col-12 col-md-10 d-flex flex-column flex-md-row gap-2 align-items-center">
+          
+          {/* Componente SearchBar (ocupa o espaço disponível) */}
+          <div className="flex-grow-1 w-100">
+            <SearchBar onSearch={handleSearch} />
+          </div>
+
+          {/* NOVO: Dropdown de Filtro de Status */}
+          <select 
+            className="form-select w-auto" 
+            value={status} 
+            onChange={handleStatusChange}
+            aria-label="Filtrar por estado"
+            style={{ height: '38px' }} // Altura para alinhar com o botão da searchbar
+          >
+            <option value="">Status</option>
+            <option value="alive">Vivo 🟢</option>
+            <option value="dead">Morto 🔴</option>
+            <option value="unknown">Desconhecido ❓</option>
+          </select>
+
         </div>
       </div>
 
-      {/* Loading */}
+      {/* LOADING */}
       {loading && (
         <div className="text-center mt-5">
           <div className="spinner-border text-primary" role="status">
@@ -82,14 +112,14 @@ const Home = () => {
         </div>
       )}
 
-      {/* Erro */}
+      {/* ERRO */}
       {error && !loading && (
         <div className="alert alert-warning text-center" role="alert">
           {error}
         </div>
       )}
 
-      {/* Listagem */}
+      {/* LISTAGEM DE CARTÕES */}
       {!loading && !error && (
         <>
           <div className="row">
@@ -98,28 +128,30 @@ const Home = () => {
             ))}
           </div>
 
-          {/* Controlo de Paginação */}
-          <div className="d-flex justify-content-center align-items-center gap-3 mt-4 mb-5">
-            <button
-              className="btn btn-outline-primary"
-              onClick={handlePrevPage}
-              disabled={page === 1 || loading} // Desativa se estiver na primeira página ou a carregar
-            >
-              &larr; Anterior
-            </button>
+          {/* PAGINAÇÃO */}
+          {totalPages > 1 && (
+            <div className="d-flex justify-content-center align-items-center gap-3 mt-5 mb-5">
+              <button 
+                className="btn btn-outline-primary" 
+                onClick={handlePrevPage}
+                disabled={page === 1}
+              >
+                &larr; Anterior
+              </button>
 
-            <span className="fw-bold">
-              Página {page} de {totalPages}
-            </span>
+              <span className="fw-bold">
+                Página {page} de {totalPages}
+              </span>
 
-            <button
-              className="btn btn-outline-primary"
-              onClick={handleNextPage}
-              disabled={page === totalPages || loading} // Desativa se estiver na última página ou a carregar
-            >
-              Seguinte &rarr;
-            </button>
-          </div>
+              <button 
+                className="btn btn-outline-primary" 
+                onClick={handleNextPage}
+                disabled={page === totalPages}
+              >
+                Seguinte &rarr;
+              </button>
+            </div>
+          )}
         </>
       )}
     </section>
