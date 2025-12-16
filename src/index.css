@@ -11,6 +11,9 @@ body {
   background-attachment: fixed;
 
   background-color: transparent !important;
+  
+  font-family: 'Bruno Ace SC', cursive;
+  color: white;
 }
 
 body::before {
@@ -78,3 +81,40 @@ body::before {
 	box-shadow: 0 0 10px #58b500;
 }
 
+h1, h2, .navbar-brand, .nav-link {
+  font-family: 'Creepster', display;
+  letter-spacing: 3px; /* Espaçar as letras para ficar mais dramático */
+  color: #ffffff !important;
+  text-shadow: 2px 2px 0px #000; /* Sombra preta para destacar do fundo */
+}
+
+.card {
+  /* Fundo semitransparente escuro (R, G, B, Opacidade) */
+  background-color: rgba(0, 0, 0, 0.6) !important;
+  
+  /* O segredo do vidro: desfoca o que está atrás */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  /* Borda subtil para definir o limite do vidro */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  
+  /* Texto claro */
+  color: white;
+  
+  /* Transição suave para a animação de hover */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-effect:hover {
+  /* O cartão flutua para cima 10 pixels */
+  transform: translateY(-10px);
+  
+  /* Brilho verde neon à volta */
+  box-shadow: 0 0 20px rgba(88, 181, 0, 0.6);
+  
+  /* Borda fica mais verde */
+  border-color: #58b500;
+  
+  cursor: pointer;
+}
