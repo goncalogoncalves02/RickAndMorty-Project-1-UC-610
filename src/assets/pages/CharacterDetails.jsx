@@ -58,7 +58,7 @@ const CharacterDetails = () => {
   return (
     <div className="container mt-4">
       {/* Botão de Voltar */}
-      <Link to="/" className="btn btn-outline-secondary mb-4">
+      <Link to="/" className="btn btn-outline-secondary mb-4 btn-voltar">
         &larr; Voltar à Lista
       </Link>
 

@@ -70,12 +70,12 @@ body::before {
 }
 
 
-.btn-anterior, .btn-seguinte {
+.btn-anterior, .btn-seguinte, .btn-voltar {
 	color: #fff !important;
 	border-color: #58b500 !important;
 }
 
-.btn-anterior:hover, .btn-seguinte:hover {
+.btn-anterior:hover, .btn-seguinte:hover, .btn-voltar:hover {
 	background-color: #58b500 !important;
 	color: #fff !important;
 	box-shadow: 0 0 10px #58b500;
@@ -117,4 +117,10 @@ h1, h2, .navbar-brand, .nav-link {
   border-color: #58b500;
   
   cursor: pointer;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: #58b500 !important;
+  
+  box-shadow: 0 0 0 0.25rem rgba(88, 181, 0, 0.25) !important;
 }
